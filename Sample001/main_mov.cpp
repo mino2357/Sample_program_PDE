@@ -6,8 +6,8 @@
  * Takaaki MINOMO
  * 私のコメントには先頭に mino) がつきます
  *
- * 改悪:Rittai_3D（仮名）
- *  わたしのコメントには先頭に Rittai) がつきます
+ * 改善（プログラムの監修）:Rittai_3D（仮名）
+ * わたしのコメントには先頭に Rittai) がつきます
  */
 
 #include <iostream>
@@ -30,7 +30,10 @@ static const double b = 0.;
 //拡散係数
 static const double D = 1.;
 //計算する時間
-static const double tLimit = 1.;
+static const double tLimit = 1.0;
+//描画のインターバル
+static const int INTV = 100;
+
 //初期条件
 double func(double x) {
     return std::sin(x);
@@ -69,23 +72,58 @@ int main()
         return 0;
     }
 
+    /**********************************************************************/
+    /*                 可視化の設定(gnuplot)                              */
+    /**********************************************************************/
+    std::FILE *gp = popen( "gnuplot -persist", "w" );
+    fprintf(gp, "set xr [0:%f]\n", L);
+    fprintf(gp, "set yr [0:1]\n");
+    fprintf(gp, "set size square\n");
+    fprintf(gp, "set grid\n");
+    fprintf(gp, "unset key\n");
+    
+    //初期条件描画
+    fprintf(gp, "plot '-'\n");
+    for( int i=0 ; i<=N; ++i ){
+        fprintf(gp, "%f %f\n", x + i * dx , uOld[i]);
+    }
+    fprintf(gp, "e\n");
+    fflush(gp);
+
     //タイムループ
-    for( ; t<tLimit ; ) {
+    for(int it = 0 ; t<tLimit ; ++it) {
+        
         //uをdt時間だけ進める
-        for( int i=1 ; i<N ; ++i) {
+        for( int i=1 ; i<N ; ++i ) {
             uNew[i] = uOld[i] + D * dt / ( dx * dx ) * (uOld[i-1] - 2. * uOld[i] + uOld[i+1] );
         }
-        //出力
+
+        //出力 デバッグ用
+        /*
         for( int i=0 ; i<=N ; ++i ) {
             std::cout << x + i * dx << " " << uNew[i] << "\n";
         }
         std::cout << std::endl;
+        */
+
+        //uNewの描画
+        if(it%INTV == 0){
+            fprintf(gp, "plot '-'\n");
+            for( int i=0 ; i<=N; ++i ){
+                fprintf(gp, "%f %f\n", x + i * dx , uNew[i]);
+            }
+            fprintf(gp, "e\n");
+            fflush(gp);
+        }
+
         // uNew -> uOld へ更新
-        for( int i=1 ; i<N ; ++i) {
+        for( int i=0 ; i<=N ; ++i ) {
             uOld[i] = uNew[i];
         }
+        
         //時刻の更新
         t += dt;
     }
 
+    pclose(gp);
 }
