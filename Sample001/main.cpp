@@ -1,6 +1,8 @@
 /*
  * 拡散方程式を解く．
  *
+ * uOldのデータからuNewを構成していく．
+ *
  * Takaaki MINOMO
  * 私のコメントには先頭に mino) がつきます
  *
@@ -25,11 +27,21 @@ static const double L = pi;
 //境界条件
 static const double a = 0.;
 static const double b = 0.;
+//拡散係数
+static const double D = 1.;
+//計算する時間
+static const double tLimit = 1.;
+
+double func(double x) {
+    return std::sin(x);
+}
 
 int main()
 {
     //分割した微小区間幅
     double dx = L / N;
+    //微小時間
+    double dt = 0.0001;
     //スタート地点（空間方向）
     double x  = 0.;
 	
@@ -37,21 +49,42 @@ int main()
 	//        元コードの疑問点：普通の配列で十分なのに new double[ N + 1 ] するのは何故？
 	// mino)
     //        配列と言えばそれしか思い浮かばなかった．std::array使います．
-    std::array< double, N + 1 > u;
+    std::array< double, N + 1 > uNew,uOld;
 	
     //初期条件   
     for( int i=0 ; i<=N ; ++i ) {
-        u[i] = std::sin( x + i * dx );
+        uOld[i] = func( x + i * dx );
     }
 
     //境界条件
-    u[0] = a;
-    u[N] = b;
+    uOld[0] = a;
+    uOld[N] = b;
 
+    //初期の時刻．
+    double t = 0;
 
-    //デバッグ用出力
-    for( int i=0 ; i<=N ; ++i ) {
-        std::cout << x + i * dx << " " << u[i] << std::endl;
+    //安定性条件のチェック
+    if( D * dt / ( dx * dx ) > 0.5 ){
+        std::cout << "安定性条件を満たしていません．" << std::endl;
+        return 0;
     }
-}
 
+    //タイムループ
+    for( ; t<tLimit ; ) {
+        //uをdt時間だけ進める
+        for( int i=1 ; i<N ; ++i) {
+            uNew[i] = uOld[i] + D * dt / ( dx * dx ) * (uOld[i-1] - 2. * uOld[i] + uOld[i+1] );
+        }
+        //出力
+        for( int i=0 ; i<=N ; ++i ) {
+            std::cout << x + i * dx << " " << uNew[i] << std::endl;
+        }
+        // uNew -> uOld へ更新
+        for( int i=1 ; i<N ; ++i) {
+            uOld[i] = uNew[i];
+        }
+        //時刻の更新
+        t += dt;
+    }
+
+}
