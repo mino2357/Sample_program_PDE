@@ -91,7 +91,7 @@ int main()
     fflush(gp);
 
     //タイムループ
-    for(int it = 0 ; t<tLimit ; ++it) {
+    for( int it = 0 ; t<tLimit ; ++it ) {
         
         //uをdt時間だけ進める
         for( int i=1 ; i<N ; ++i ) {
@@ -107,7 +107,7 @@ int main()
         */
 
         //uNewの描画
-        if(it%INTV == 0){
+        if( it%INTV == 0 ){
             fprintf(gp, "plot '-'\n");
             for( int i=0 ; i<=N; ++i ){
                 fprintf(gp, "%f %f\n", x + i * dx , uNew[i]);
@@ -117,13 +117,16 @@ int main()
         }
 
         // uNew -> uOld へ更新
-        for( int i=0 ; i<=N ; ++i ) {
+        /*for( int i=0 ; i<=N ; ++i ) {
             uOld[i] = uNew[i];
-        }
+        }*/
+        // mino) Rittai_3Dさんはこう書くようだ．
+        std::copy( begin( uNew ), end( uNew ), begin( uOld ));
         
         //時刻の更新
         t += dt;
     }
 
+    //FILEポインタの解放
     pclose(gp);
 }
