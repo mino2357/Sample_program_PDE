@@ -30,7 +30,7 @@ static const double b = 0.;
 //拡散係数
 static const double D = 1.;
 //計算する時間
-static const double tLimit = 1000.0;
+static const double tLimit = 100.0;
 
 //初期条件
 double func(double x) {
