@@ -27,7 +27,7 @@ constexpr double pi = sprout::math::acos(-1.0);
 //区間
 constexpr double L = pi;
 //速度
-constexpr double c = 1.0;
+constexpr double c = -1.0;
 //計算する時間
 constexpr double tLimit = 100.0;
 //描画のインターバル
@@ -95,12 +95,21 @@ int main()
     for( int it = 0 ; t<tLimit ; ++it ) {
         
         //uをdt時間だけ進める
-        for( int i=1 ; i<N ; ++i ) {
-            uNew[i] = uOld[i] - c * dt / ( 2. * dx ) * ( uOld[i+1] - uOld[i-1] );
+        if(c >= 0) {
+            for( int i=1 ; i<N ; ++i ) {
+                uNew[i] = uOld[i] - c * dt / ( dx ) * ( uOld[i] - uOld[i-1] );
+            }
+            //境界条件の計算（PBC）
+            uNew[0] = uOld[0] - c * dt / ( dx ) * ( uOld[0] - uOld[N] );
+            uNew[N] = uOld[N] - c * dt / ( dx ) * ( uOld[N] - uOld[N-1] );
+        } else {
+            for( int i=1 ; i<N ; ++i ) {
+                uNew[i] = uOld[i] - c * dt / ( dx ) * ( uOld[i+1] - uOld[i] );
+            }
+            //境界条件の計算（PBC）
+            uNew[0] = uOld[0] - c * dt / ( dx ) * ( uOld[1] - uOld[0] );
+            uNew[N] = uOld[N] - c * dt / ( dx ) * ( uOld[N+1] - uOld[N] );
         }
-        //境界条件の計算（PBC）
-        uNew[0] = uOld[0] - c * dt / ( 2. * dx ) * ( uOld[1] - uOld[N] );
-        uNew[N] = uOld[N] - c * dt / ( 2. * dx ) * ( uOld[0] - uOld[N-1] );
 
         //uNewの描画
         if( it%INTV == 0 ){
