@@ -24,9 +24,6 @@ static const int N = 512;
 static const double pi = acos(-1.);
 //区間
 static const double L = pi;
-//境界条件
-static const double a = 0.;
-static const double b = 0.;
 //速度
 static const double c = 1.0;
 //計算する時間

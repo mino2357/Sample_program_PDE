@@ -82,9 +82,8 @@ int main()
         std::cout << std::endl;
         */
         // uNew -> uOld へ更新
-        for( int i=1 ; i<N ; ++i) {
-            uOld[i] = uNew[i];
-        }
+        std::copy( begin(uNew), end(uNew), begin(uOld));
+
         //時刻の更新
         t += dt;
     }
