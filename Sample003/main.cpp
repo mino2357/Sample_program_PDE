@@ -22,7 +22,7 @@
 constexpr int N = 512;
 constexpr double pi = sprout::math::acos(-1.0);
 constexpr double L = pi;
-constexpr double c = 1.0;
+constexpr double c = -1.0;
 constexpr double tLimit = 100.0;
 //描画のインターバル
 constexpr int INTV = 10;
@@ -55,8 +55,8 @@ int main()
     double t = 0;
 
     //std::cout << (dt * c) / dx << std::endl;
-    //安定性条件のチェック
-    if( 1.0 < (dt * c) / dx ){
+    //安定性条件のチェック CFL条件
+    if( 1.0 < std::abs( (dt * c) / dx ) ){
         std::cout << "安定性条件を満たしていません．" << std::endl;
         return 0;
     }
