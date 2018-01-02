@@ -19,21 +19,14 @@
 // mino)そうします．
 // mino)constexpr解禁しました．
 
-//区間をN等分する．
 constexpr int N = 512;
-//円周率
-// Rittai)ちなみに <cmath> に M_PI ってのがあります
 constexpr double pi = sprout::math::acos(-1.0);
-//区間
 constexpr double L = pi;
-//速度
-constexpr double c = -1.0;
-//計算する時間
+constexpr double c = 1.0;
 constexpr double tLimit = 100.0;
 //描画のインターバル
 constexpr int INTV = 10;
 
-//初期条件
 template <typename T = double>
 constexpr T func(T x) {
     //return std::exp(- 40* (x - L/2.) * (x - L/2.));
@@ -43,11 +36,8 @@ constexpr T func(T x) {
 
 int main()
 {
-    //分割した微小区間幅
     double dx = L / N;
-    //微小時間
     double dt = 0.0001;
-    //スタート地点（空間方向）
     double x  = 0.;
 	
     // Rittai)配列より std::array. range-based for に index が欲しい！
@@ -66,7 +56,7 @@ int main()
 
     //std::cout << (dt * c) / dx << std::endl;
     //安定性条件のチェック
-    if( 1. < (dt * c) / dx ){
+    if( 1.0 < (dt * c) / dx ){
         std::cout << "安定性条件を満たしていません．" << std::endl;
         return 0;
     }
