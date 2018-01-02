@@ -136,7 +136,7 @@ int main()
     
     //初期条件描画
     fprintf(gp, "plot '-' w l\n");
-    for( int i=0 ; i<=N; ++i ){
+    for(int i=0; i<=N; ++i){
         fprintf(gp, "%f %f\n", x + i * dx , uOld[i]);
     }
     fprintf(gp, "e\n");
