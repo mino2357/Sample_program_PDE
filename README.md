@@ -59,3 +59,9 @@ CIP法．（Constrained Interpolation Profile scheme.）
 ### 移流方程式
 
 Sample004のコードを少しだけ改善．
+
+## Sample008
+
+### 非粘性バーガース方程式
+
+移流部分は単純な風上差分法．

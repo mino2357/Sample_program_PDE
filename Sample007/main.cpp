@@ -47,7 +47,7 @@ namespace mino2357{
         }
         //2次の係数
         template < typename T = double >
-        constexpr T b(int i, const std::array< T, N+1>& u, const std::array<T, N+1>& g){
+        constexpr T b(int i, const std::array< T, N+1>& u, const std::array<T, N+1>& g) noexcept{
             if(c >= 0){
                 if(i == 0){
                     return - 3.0 * (u[0] - u[N]) / (dx * dx) - (2.0 * g[0] + g[N]) / dx;
@@ -63,7 +63,7 @@ namespace mino2357{
     }
     //今の値uと勾配の値gから次のuの値を計算する
     template <typename T = double>
-    constexpr void makeNextU(const std::array<T, N+1>& u, const std::array<T, N+1>& g, std::array<T, N+1>& newU){
+    constexpr void makeNextU(const std::array<T, N+1>& u, const std::array<T, N+1>& g, std::array<T, N+1>& newU) noexcept{
         T z = c * dt;
         if(c < 0){z = - 1.0 * z;}
         for(int i=0; i<=N; ++i){
@@ -73,7 +73,7 @@ namespace mino2357{
     
     //今の値uと勾配の値gから次のgの値を計算する
     template <typename T = double>
-    constexpr void makeNextG(const std::array<T, N+1>& u, const std::array<T, N+1>& g, std::array<T, N+1>& newG){
+    constexpr void makeNextG(const std::array<T, N+1>& u, const std::array<T, N+1>& g, std::array<T, N+1>& newG) noexcept{
         T z = c * dt;
         if(c < 0) z = - 1.0 * z;
         for(int i=0; i<=N; ++i){
@@ -82,7 +82,7 @@ namespace mino2357{
     }
     //初期条件
     template <typename T = double>
-    constexpr T func(T x) {
+    constexpr T func(T x)noexcept {
         //return std::exp(- 40* (x - L/2.) * (x - L/2.));
         if(x > L/2.) return 0.;
         return 1.;
@@ -90,7 +90,7 @@ namespace mino2357{
     }
     //はじめの勾配gを作っておく．
     template <typename T = double>
-    constexpr void makeGrad(const std::array<T, N+1>& u, std::array<T, N+1>& g){
+    constexpr void makeGrad(const std::array<T, N+1>& u, std::array<T, N+1>& g)noexcept {
         for(int i=1; i<N; ++i){
             g[i] = (u[i+1] - u[i-1]) / (2.0 * dx);
         }
@@ -103,8 +103,8 @@ int main()
 {
 	
     //値とその勾配のarray
-    std::array< double, N + 1 > uNew, uOld;
-    std::array< double, N + 1 > gNew, gOld;
+    std::array<double, N+1> uNew, uOld;
+    std::array<double, N+1> gNew, gOld;
 	
     //初期条件   
     for(int i=0; i<=N; ++i) {
