@@ -53,3 +53,9 @@ CIP法．（Constrained Interpolation Profile scheme.）
 ### 移流拡散方程式
 
 単純な差分法(風上差分法，陽解法)．
+
+## Sample007
+
+### 移流方程式
+
+Sample004のコードを少しだけ改善．
