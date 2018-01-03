@@ -30,7 +30,7 @@ namespace mino2357{
     //初期条件
     template <typename T = double>
     constexpr T func(T x)noexcept {
-        return std::sin(2.0 * x) + 1.0;
+        return 0.5 * std::sin(2.0 * x) + 1.0;
         //return std::exp(- 40* (x - L/2.) * (x - L/2.));
         //if(x > L/2.) return 0.;
         //return 1.;
