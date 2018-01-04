@@ -81,8 +81,8 @@ namespace mino2357{
     //初期条件
     template <typename T = double>
     constexpr T func(T x)noexcept {
-        //return std::sin(2 * x) + 1;
-        return 2.0 * std::exp(- 50 * (x - L/4.0) * (x - L/4.0)) + std::exp(- 50 * (x - 2.0 * L / 4.0) * (x - 2.0 * L / 4.0));
+        //return std::sin(4 * x);
+        return 2.0 * std::exp(- 50 * (x - L/4.0) * (x - L/4.0)) - std::exp(- 50 * (x - 2.0 * L / 4.0) * (x - 2.0 * L / 4.0));
         if(x > L/2.) return 0.0;
         return 1.0;
         
