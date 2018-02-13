@@ -24,7 +24,7 @@ constexpr double tLimit = 1000;
 constexpr double dx = L / N;
 constexpr double dt = 0.0001;
 constexpr double x  = 0.;
-constexpr int INTV = 50;
+constexpr int INTV = 100;
 
 namespace mino2357{
     namespace coeff{
@@ -82,7 +82,7 @@ namespace mino2357{
     template <typename T = double>
     constexpr T func(T x)noexcept {
         //return std::sin(4 * x);
-        return 2.0 * std::exp(- 50 * (x - L/4.0) * (x - L/4.0)) - std::exp(- 50 * (x - 2.0 * L / 4.0) * (x - 2.0 * L / 4.0));
+        //return 2.0 * std::exp(- 50 * (x - L/4.0) * (x - L/4.0)) - std::exp(- 50 * (x - 2.0 * L / 4.0) * (x - 2.0 * L / 4.0));
         if(x > L/2.) return 0.0;
         return 1.0;
         
